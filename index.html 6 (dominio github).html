@@ -2,10 +2,9 @@
 <html lang="pt-BR">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Adega Santos</title>
-  <base href="https://adegasantos.github.io/Adega-Santos/">
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -140,8 +139,9 @@
   </header>
 
   <div class="container">
+    <!-- WHISKIES -->
     <div class="product">
-      <img src="https://imgur.com/hp4BkXr.jpg" alt="Whisky Jack Daniels Maçã Verde">
+      <img src="https://i.imgur.com/hp4BkXr.jpg" alt="Whisky Jack Daniels Maçã Verde" />
       <h3>Whisky Jack Daniels Maçã Verde</h3>
       <p>Categoria: Whisky</p>
       <span>R$ 129,90</span>
@@ -149,7 +149,7 @@
     </div>
 
     <div class="product">
-      <img src="https://imgur.com/lIUw1mm.jpg" alt="Whisky Royal Salut 21 anos">
+      <img src="https://i.imgur.com/lIUw1mm.jpg" alt="Whisky Royal Salut 21 anos" />
       <h3>Whisky Royal Salut 21 anos</h3>
       <p>Categoria: Whisky</p>
       <span>R$ 1.250,90</span>
@@ -157,15 +157,16 @@
     </div>
 
     <div class="product">
-      <img src="https://imgur.com/XzxAQtM.jpg" alt="Whisky Gold Label Reserve">
+      <img src="https://i.imgur.com/XzxAQtM.jpg" alt="Whisky Gold Label Reserve" />
       <h3>Whisky Gold Label Reserve</h3>
       <p>Categoria: Whisky</p>
       <span>R$ 259,99</span>
       <button class="buy-button">Comprar</button>
     </div>
 
+    <!-- GINS -->
     <div class="product">
-      <img src="https://imgur.com/t30YUsZ.jpg" alt="Gin Tanqueray Bossa Nova Lime">
+      <img src="https://i.imgur.com/t30YUsZ.jpg" alt="Gin Tanqueray Bossa Nova Lime" />
       <h3>Gin Tanqueray Bossa Nova Lime</h3>
       <p>Categoria: Gin</p>
       <span>R$ 129,90</span>
@@ -173,7 +174,7 @@
     </div>
 
     <div class="product">
-      <img src="https://imgur.com/IgPpFoq.jpg" alt="Gin Tanqueray Royale">
+      <img src="https://i.imgur.com/IgPpFoq.jpg" alt="Gin Tanqueray Royale" />
       <h3>Gin Tanqueray Royale</h3>
       <p>Categoria: Gin</p>
       <span>R$ 129,90</span>
@@ -181,7 +182,7 @@
     </div>
 
     <div class="product">
-      <img src="https://imgur.com/yBmbK3Z.jpg" alt="Gin Tanqueray Royale">
+      <img src="https://i.imgur.com/yBmbK3Z.jpg" alt="Gin Tanqueray Royale" />
       <h3>Gin Tanqueray Royale</h3>
       <p>Categoria: Gin</p>
       <span>R$ 129,90</span>
@@ -229,6 +230,7 @@
     }
 
     function parsePrice(priceStr) {
+      // Remove "R$ ", dots and replace comma with dot for decimal
       return Number(priceStr.replace(/[^\d,]/g, "").replace(",", "."));
     }
 
