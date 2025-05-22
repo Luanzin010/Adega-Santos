@@ -66,6 +66,7 @@
       display: none;
       flex-direction: column;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
     }
 
     .cart h2 {
@@ -107,6 +108,7 @@
       display: none;
       justify-content: center;
       align-items: center;
+      z-index: 2000;
     }
 
     .payment-content {
@@ -133,7 +135,6 @@
 </head>
 
 <body>
-
   <header>
     <h1>Adega Santos</h1>
   </header>
@@ -141,7 +142,7 @@
   <div class="container">
     <!-- WHISKIES -->
     <div class="product">
-      <img src="https://i.imgur.com/hp4BkXr.jpg" alt="Whisky Jack Daniels Maçã Verde" />
+      <img src="https://imgur.com/hp4BkXr.jpg" alt="Whisky Jack Daniels Maçã Verde" />
       <h3>Whisky Jack Daniels Maçã Verde</h3>
       <p>Categoria: Whisky</p>
       <span>R$ 129,90</span>
@@ -149,7 +150,7 @@
     </div>
 
     <div class="product">
-      <img src="https://i.imgur.com/lIUw1mm.jpg" alt="Whisky Royal Salut 21 anos" />
+      <img src="https://imgur.com/lIUw1mm.jpg" alt="Whisky Royal Salut 21 anos" />
       <h3>Whisky Royal Salut 21 anos</h3>
       <p>Categoria: Whisky</p>
       <span>R$ 1.250,90</span>
@@ -157,7 +158,7 @@
     </div>
 
     <div class="product">
-      <img src="https://i.imgur.com/XzxAQtM.jpg" alt="Whisky Gold Label Reserve" />
+      <img src="https://imgur.com/XzxAQtM.jpg" alt="Whisky Gold Label Reserve" />
       <h3>Whisky Gold Label Reserve</h3>
       <p>Categoria: Whisky</p>
       <span>R$ 259,99</span>
@@ -166,15 +167,7 @@
 
     <!-- GINS -->
     <div class="product">
-      <img src="https://i.imgur.com/t30YUsZ.jpg" alt="Gin Tanqueray Bossa Nova Lime" />
-      <h3>Gin Tanqueray Bossa Nova Lime</h3>
-      <p>Categoria: Gin</p>
-      <span>R$ 129,90</span>
-      <button class="buy-button">Comprar</button>
-    </div>
-
-    <div class="product">
-      <img src="https://i.imgur.com/IgPpFoq.jpg" alt="Gin Tanqueray Royale" />
+      <img src="https://destro.fbitsstatic.net/img/p/gin-tanqueray-dark-berry-royale-700ml-82756/269311.jpg?w=500&h=500&v=202501231555&qs=ignore" alt="Gin Tanqueray Royale" />
       <h3>Gin Tanqueray Royale</h3>
       <p>Categoria: Gin</p>
       <span>R$ 129,90</span>
@@ -182,29 +175,37 @@
     </div>
 
     <div class="product">
-      <img src="https://i.imgur.com/yBmbK3Z.jpg" alt="Gin Tanqueray Royale" />
-      <h3>Gin Tanqueray Royale</h3>
+      <img src="https://www.bebidaonline.com.br/media/catalog/product/cache/1/thumbnail/800x/99cfa2db909aa8be0aba7059fa3f7550/g/i/gin_tanqueray_sevilla_1000ml.jpg" alt="Gin Tanqueray Sevilla" />
+      <h3>Gin Tanqueray Sevilla</h3>
+      <p>Categoria: Gin</p>
+      <span>R$ 129,90</span>
+      <button class="buy-button">Comprar</button>
+    </div>
+
+    <div class="product">
+      <img src="https://images.tcdn.com.br/img/img_prod/1306234/gin_tanqueray_rangpur_lime_700_ml_599_1_056467c327a6b32a52d9136fa0e08c0e.jpg" alt="Gin Tanqueray Lime" />
+      <h3>Gin Tanqueray Lime</h3>
       <p>Categoria: Gin</p>
       <span>R$ 129,90</span>
       <button class="buy-button">Comprar</button>
     </div>
   </div>
 
-  <div class="cart" id="cart">
+  <div class="cart" id="cart" aria-label="Carrinho de compras">
     <h2>Carrinho</h2>
     <div id="cart-items"></div>
     <p id="cart-total">Total: R$ 0,00</p>
-    <button id="checkout-btn" class="checkout">Finalizar Compra</button>
+    <button id="checkout-btn" class="checkout" disabled>Finalizar Compra</button>
     <button id="close-cart">Fechar</button>
   </div>
 
   <div class="payment-modal" id="payment-modal" aria-hidden="true">
-    <div class="payment-content">
-      <h2>Escolha o pagamento</h2>
-      <div id="pix-btn" class="payment-option">PIX</div>
-      <div id="card-btn" class="payment-option">Cartão</div>
+    <div class="payment-content" role="dialog" aria-modal="true" aria-labelledby="payment-title">
+      <h2 id="payment-title">Escolha o pagamento</h2>
+      <div id="pix-btn" class="payment-option" tabindex="0">PIX</div>
+      <div id="card-btn" class="payment-option" tabindex="0">Cartão</div>
       <p id="payment-info"></p>
-      <button id="confirm-payment" class="checkout">Confirmar Pagamento</button>
+      <button id="confirm-payment" class="checkout" disabled>Confirmar Pagamento</button>
       <button id="close-payment">Fechar</button>
     </div>
   </div>
@@ -230,8 +231,8 @@
     }
 
     function parsePrice(priceStr) {
-      // Remove "R$ ", dots and replace comma with dot for decimal
-      return Number(priceStr.replace(/[^\d,]/g, "").replace(",", "."));
+      // Remove 'R$', dots, replace comma by dot, then parseFloat
+      return parseFloat(priceStr.replace(/[R$\s\.]/g, "").replace(",", "."));
     }
 
     function updateCartDisplay() {
@@ -275,7 +276,7 @@
     }
 
     function addToCart(name, price) {
-      const existingIndex = cart.findIndex(item => item.name === name);
+      const existingIndex = cart.findIndex((item) => item.name === name);
       if (existingIndex > -1) {
         cart[existingIndex].quantity++;
       } else {
@@ -301,7 +302,7 @@
 
     closeCartBtn.addEventListener("click", hideCart);
 
-    productCards.forEach(card => {
+    productCards.forEach((card) => {
       const btn = card.querySelector(".buy-button");
       const name = card.querySelector("h3").textContent.trim();
       const priceText = card.querySelector("span").textContent.trim();
@@ -319,10 +320,12 @@
       selectedPayment = null;
       pixBtn.classList.remove("selected");
       cardBtn.classList.remove("selected");
+      paymentModal.setAttribute("aria-hidden", "false");
     }
 
     function closePaymentModal() {
       paymentModal.style.display = "none";
+      paymentModal.setAttribute("aria-hidden", "true");
     }
 
     closePaymentBtn.addEventListener("click", closePaymentModal);
@@ -341,20 +344,21 @@
       selectedPayment = "Cartão";
       cardBtn.classList.add("selected");
       pixBtn.classList.remove("selected");
-      paymentInfoEl.textContent = "Você será redirecionado para o pagamento com cartão.";
+      paymentInfoEl.textContent = "Pagamento por cartão será redirecionado (simulação).";
       confirmPaymentBtn.disabled = false;
     });
 
     confirmPaymentBtn.addEventListener("click", () => {
-      if (!selectedPayment) return;
-      alert(`Pagamento via ${selectedPayment} confirmado! Obrigado pela compra.`);
+      alert(`Pagamento via ${selectedPayment} realizado com sucesso!`);
       cart.length = 0;
       updateCartDisplay();
-      hideCart();
       closePaymentModal();
+      hideCart();
     });
-  </script>
 
+    // Inicializa carrinho vazio
+    updateCartDisplay();
+  </script>
 </body>
 
 </html>
